@@ -1,0 +1,5 @@
+Explaination :- In this query, record which has department number 6 can not delete because it primary key and referencing Dnumber, the column of dept_location, So this showed referential integrity constraint. 
+
+mysql> DELETE FROM department WHERE Dnumber=6;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`nxk9794`.`dept_locations`, CONSTRAINT `pk_depdept` FOREIGN KEY (`Dnumber`) REFERENCES `department` (`Dnumber`))
+

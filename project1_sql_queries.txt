@@ -1,0 +1,98 @@
+CREATE TABLE employee (Fname varchar(50),  Minit varchar(1),  Lname varchar(50),  Ssn varchar(9) ,  Bdate date,  Address varchar(100),  Sex varchar(1),  Salary varchar(10),  Super_ssn varchar(9),  Dno varchar(10),   PRIMARY KEY (Ssn));
+
+CREATE TABLE department (Dname varchar(50),  Dnumber varchar(10),  Mgr_ssn varchar(9),  Mgr_start_date date,   PRIMARY KEY (Dnumber)); 
+
+CREATE TABLE dept_locations (  Dnumber varchar(10),  Dlocation varchar(50),   PRIMARY KEY (Dnumber,Dlocation));
+
+CREATE TABLE project (  Pname varchar(50),  Pnumber varchar(10),  Plocation varchar(50),  Dnum varchar(10),   PRIMARY KEY (Pnumber));
+
+CREATE TABLE works_on (  Essn varchar(9),  Pno varchar(10),  Hours varchar(10),   PRIMARY KEY (Essn,Pno)); 
+
+CREATE TABLE dependent (  Essn varchar(10),  Dependent_name varchar(50),  Sex varchar(1),  Bdate date,  Relationship varchar(50),   PRIMARY KEY (Essn,Dependent_name)); 
+
+desc employee;
+
+desc department;
+
+desc dept_locations;
+
+desc project;
+
+desc works_on;
+
+desc dependent;
+
+ALTER TABLE employee  ADD CONSTRAINT pk_empemp FOREIGN KEY (Super_ssn) REFERENCES employee(Ssn);
+
+ALTER TABLE employee  ADD CONSTRAINT pk_depemp FOREIGN KEY (Dno) REFERENCES department(Dnumber);
+
+ALTER TABLE department  ADD CONSTRAINT pk_empdepa FOREIGN KEY (Mgr_ssn) REFERENCES employee(Ssn);
+
+ALTER TABLE dept_locations  ADD CONSTRAINT pk_depdept FOREIGN KEY (Dnumber) REFERENCES department(Dnumber);
+
+ALTER TABLE project  ADD CONSTRAINT pk_depproj FOREIGN KEY (Dnum) REFERENCES department(Dnumber);
+
+ALTER TABLE works_on  ADD CONSTRAINT pk_empwork FOREIGN KEY (Essn) REFERENCES employee(Ssn);
+
+ALTER TABLE works_on  ADD CONSTRAINT pk_projwork FOREIGN KEY (Pno) REFERENCES project(Pnumber);
+
+ALTER TABLE dependent  ADD CONSTRAINT pk_empdepen FOREIGN KEY (Essn) REFERENCES employee(Ssn);
+
+INSERT INTO department VALUES('Services',1,'123456789','2012-08-11');
+
+INSERT INTO department VALUES('Purchasing',1,'990110110','2013-03-02');
+
+INSERT INTO department VALUES('Customers',12,'333445555','2013-01-14');
+
+UPDATE dept_locations SET Dlocation='Seattle' WHERE Dnumber=9;
+
+UPDATE employee SET Salary=55000 WHERE Ssn=444444444;
+
+INSERT INTO employee VALUES('Jane','B','Smith','666666606','1980-03-01','3556 W SecondStreet,Miami,FL','F',85000,'666666603',5);
+
+UPDATE works_on SET Hours=25 WHERE Pno=1 AND Essn='666884444';
+
+DELETE FROM department WHERE Dnumber=9;
+
+DELETE FROM employee WHERE Ssn='432765098';
+
+DELETE FROM dependent WHERE Essn='666666608';
+
+SELECT * FROM employee WHERE Lname='Jones' OR Lname='James';
+
+SELECT * FROM employee WHERE Fname='Kim' OR Fname='Wilson';
+
+SELECT A.Fname,A.Lname,A.Ssn,SUM(B.Hours) AS Total_Hours FROM employee AS A INNER JOIN works_on AS B ON A.Ssn=B.Essn GROUP BY (B.Essn) HAVING COUNT(Pno)>1;
+
+SELECT A.Pname,A.Pnumber,A.Plocation,COUNT(B.Essn) AS Total_Working_Employee FROM project AS A INNER JOIN works_on AS B ON A.Pnumber=B.Pno GROUP BY (A.Pnumber);
+
+SELECT A.Ssn,A.Fname,A.Lname,B.Pname,B.Pnumber,C.Hours FROM employee AS A INNER JOIN project AS B ON A.Dno=B.Dnum INNER JOIN works_on AS C ON B.Pnumber=C.Pno WHERE B.Dnum=5 AND B.Plocation='Houston';
+
+SELECT A.Fname,A.Lname FROM employee AS A INNER JOIN works_on AS B ON A.Ssn=B.Essn GROUP BY(B.Essn) HAVING SUM(B.Hours)>40;
+
+
+SELECT A.Fname,A.Lname,COUNT(A.sSN) AS Total_Employee FROM employee AS A INNER JOIN employee AS B ON A.Ssn=B.Super_ssn GROUP BY (A.Ssn);
+
+SELECT Pno,SUM(Hours) AS Total_Hours FROM works_on GROUP BY (Pno);
+
+SELECT A.* FROM employee AS A INNER JOIN dependent AS B ON A.Ssn=B.Essn GROUP BY (B.Essn) HAVING COUNT(B.Essn)>2;
+
+SELECT A.* FROM employee AS A INNER JOIN dependent AS B ON A.Ssn=B.Essn WHERE B.Relationship='Children' GROUP BY (B.Essn) HAVING COUNT(B.Essn)>1;
+
+SELECT A.Fname,A.Lname FROM employee AS A INNER JOIN dept_locations AS B ON A.Dno=B.DnumbeR WHERE B.Dlocation='Atlanta';
+
+SELECT A.Ssn,A.Fname,A.Lname,C.Pname,C.Pnumber,B.Hours FROM employee AS A INNER JOIN works_on AS B ON A.Ssn=B.Essn INNER JOIN project AS C ON B.Pno=C.Pnumber WHERE C.Dnum=5 AND C.Plocation='Houston';
+
+INSERT INTO employee VALUES ('Nitya','H','Kansara',NULL,'1998-10-24','417 Summit Ave,Arlington,TX','M','75000','666666606','5');
+
+INSERT INTO employee VALUES ('Nitya','H','Kansara','987996531','1998-10-24','417 Summit Ave,Arlington,TX','M','75000','112233445','5');
+
+INSERT INTO employee VALUES ('Nitya','H','Kansara','110110110','1998-10-24','417 Summit Ave,Arlington,TX','M','75000','666666606','5');
+
+DELETE FROM department WHERE Dnumber=6;
+
+INSERT INTO employee VALUES ('Nitya','H','Kansara','987996531','1998-10-24','417 Summit Ave,Arlington,TX','M','75000','666666606','5');
+
+INSERT INTO works_on VALUES ('987996531','22','15');
+
+INSERT INTO department VALUES ('Accounts','15','987996531','2017-06-21');

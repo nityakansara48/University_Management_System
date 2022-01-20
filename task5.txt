@@ -1,0 +1,16 @@
+Explaination :- In this file, 3 records inserted but each record contain some integrity constraint. 
+
+In the first record, Primary key(Ssn) is null so it violate entity integrity constraint.
+
+In the second record, Super_ssn is referenced by Ssn and given value for Super_ssn is not in Ssn so it violate referential integrity constraint.
+
+In the third record, Primary key(Ssn) already in previous record, so it showed duplicated primary key which violates the key constraint. 
+
+mysql> INSERT INTO employee VALUES ('Nitya','H','Kansara',NULL,'1998-10-24','417 Summit Ave,Arlington,TX','M','75000','666666606','5');
+ERROR 1048 (23000): Column 'Ssn' cannot be null
+
+mysql> INSERT INTO employee VALUES ('Nitya','H','Kansara','987996531','1998-10-24','417 Summit Ave,Arlington,TX','M','75000','112233445','5');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`nxk9794`.`employee`, CONSTRAINT `pk_empemp` FOREIGN KEY (`Super_ssn`) REFERENCES `employee` (`Ssn`))
+
+mysql> INSERT INTO employee VALUES ('Nitya','H','Kansara','110110110','1998-10-24','417 Summit Ave,Arlington,TX','M','75000','666666606','5');
+ERROR 1062 (23000): Duplicate entry '110110110' for key 'employee.PRIMARY'

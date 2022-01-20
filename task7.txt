@@ -1,0 +1,11 @@
+Explaination :- This file, 3 records were inserted successfully. 
+
+mysql> INSERT INTO employee VALUES ('Nitya','H','Kansara','987996531','1998-10-24','417 Summit Ave,Arlington,TX','M','75000','666666606','5');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO works_on VALUES ('987996531','22','15');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO department VALUES ('Accounts','15','987996531','2017-06-21');
+Query OK, 1 row affected (0.01 sec)
+

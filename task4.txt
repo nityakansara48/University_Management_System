@@ -1,0 +1,202 @@
+Explaination :- This file contains output of all retrieval queries according to project task. 
+
+mysql> SELECT * FROM employee WHERE Lname='Jones' OR Lname='James';
++-------+-------+-------+-----------+------------+-------------------------------+------+--------+-----------+------+
+| Fname | Minit | Lname | Ssn       | Bdate      | Address                       | Sex  | Salary | Super_ssn | Dno  |
++-------+-------+-------+-----------+------------+-------------------------------+------+--------+-----------+------+
+| Jared | D     | James | 111111100 | 1966-10-10 | 123 Peachtr,Atlanta,GA        | M    | 85000  | NULL      | 6    |
+| Jon   | C     | Jones | 111111101 | 1967-11-14 | 111 Allgood,Atlanta,GA        | M    | 45000  | 111111100 | 6    |
+| Megan | G     | Jones | 254937381 | 1961-03-02 | 528 Stone CT,Chicago,IL       | F    | 62000  | 666666600 | 8    |
+| John  | C     | James | 555555500 | 1975-06-30 | 766 Bloomington,Sacramento,CA | M    | 81000  | NULL      | 8    |
++-------+-------+-------+-----------+------------+-------------------------------+------+--------+-----------+------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT * FROM employee WHERE Fname='Kim' OR Fname='Wilson';
++--------+-------+--------+-----------+------------+-----------------------------+------+--------+-----------+------+
+| Fname  | Minit | Lname  | Ssn       | Bdate      | Address                     | Sex  | Salary | Super_ssn | Dno  |
++--------+-------+--------+-----------+------------+-----------------------------+------+--------+-----------+------+
+| Wilson | A     | Holmes | 242916639 | 1971-06-02 | 21 South Co,Arlington,TX    | M    | 72500  | 555555500 | 4    |
+| Kim    | C     | Grace  | 333333300 | 1970-10-23 | 667 Mills Ave,Sacramento,CA | F    | 79000  | NULL      | 6    |
+| Kim    | G     | Ted    | 444222666 | 1968-04-15 | 3648 Tree Cir,Austin,TX     | M    | 50000  | 999999999 | 8    |
++--------+-------+--------+-----------+------------+-----------------------------+------+--------+-----------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT A.Fname,A.Lname,A.Ssn,SUM(B.Hours) AS Total_Hours FROM employee AS A INNER JOIN works_on AS B ON A.Ssn=B.Essn GROUP BY (B.Essn) HAVING COUNT(Pno)>1;
++----------+----------+-----------+-------------+
+| Fname    | Lname    | Ssn       | Total_Hours |
++----------+----------+-----------+-------------+
+| Cameron  | Thirteen | 111422203 |          50 |
+| John     | Smith    | 123456789 |          40 |
+| Richard  | Koelbel  | 214370999 |          39 |
+| Erin     | Maxfield | 242535609 |          40 |
+| Wilson   | Holmes   | 242916639 |          35 |
+| Jake     | Sheen    | 245239264 |          55 |
+| Frank    | Wong     | 333445555 |          30 |
+| Leonard  | Moody    | 349273344 |          25 |
+| Percy    | Liang    | 398172999 |          20 |
+| Joyce    | English  | 453453453 |          40 |
+| Red      | Bacher   | 666666613 |          50 |
+| Jennifer | Wallace  | 987654321 |          35 |
+| Ahmad    | Jabbar   | 987987987 |          40 |
+| Alicia   | Zelaya   | 999887777 |          40 |
+| Roy      | Lewallen | 999999999 |          40 |
++----------+----------+-----------+-------------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT A.Pname,A.Pnumber,A.Plocation,COUNT(B.Essn) AS Total_Working_Employee FROM project AS A INNER JOIN works_on AS B ON A.Pnumber=B.Pno GROUP BY (A.Pnumber);
++------------------+---------+------------+------------------------+
+| Pname            | Pnumber | Plocation  | Total_Working_Employee |
++------------------+---------+------------+------------------------+
+| Computerization  | 10      | Stafford   |                      6 |
+| ConfigMgmt       | 11      | Atlanta    |                      3 |
+| DataMining       | 13      | Sacramento |                      1 |
+| Reorganization   | 20      | Houston    |                      4 |
+| SearchEngine     | 22      | Arlington  |                      2 |
+| MotherBoard      | 29      | Milwaukee  |                      3 |
+| Benefits         | 30      | Stafford   |                      4 |
+| EntityAnnot      | 4       | Houston    |                      3 |
+| Analysis         | 5       | Sacramento |                      6 |
+| EventManagement  | 6       | Sacramento |                      5 |
+| OperatingSystem  | 61      | Sacramento |                     11 |
+| DatabaseSystems  | 62      | Atlanta    |                     11 |
+| Middleware       | 63      | Atlanta    |                      9 |
+| FoodDistribution | 7       | Sacramento |                      5 |
+| Advertizing      | 70      | Arlington  |                      4 |
+| InkjetPrinters   | 91      | Milwaukee  |                     10 |
+| LaserPrinters    | 92      | Milwaukee  |                      5 |
+| HumanResource    | 95      | Arlington  |                      4 |
++------------------+---------+------------+------------------------+
+18 rows in set (0.00 sec)
+
+mysql> SELECT A.Ssn,A.Fname,A.Lname,C.Pname,C.Pnumber,B.Hours FROM employee AS A INNER JOIN works_on AS B ON A.Ssn=B.Essn INNER JOIN project AS C ON B.Pno=C.Pnumber WHERE C.Dnum=5 AND C.Plocation='Houston';
++---------+----------+-----------+-------------+---------+-------+
+| Fname   | Lname    | Ssn       | Pname       | Pnumber | Hours |
++---------+----------+-----------+-------------+---------+-------+
+| Cameron | Thirteen | 111422203 | EntityAnnot |       4 |    45 |
+| Wilson  | Holmes   | 242916639 | EntityAnnot |       4 |     5 |
+| Michael | Morgan   | 636669233 | EntityAnnot |       4 |    11 |
++---------+----------+-----------+-------------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT A.Fname,A.Lname FROM employee AS A INNER JOIN works_on AS B ON A.Ssn=B.Essn GROUP BY(B.Essn) HAVING SUM(B.Hours)>40;
++---------+----------+
+| Fname   | Lname    |
++---------+----------+
+| Cameron | Thirteen |
+| Josh    | Zell     |
+| Jake    | Sheen    |
+| Jeff    | Chase    |
+| Nandita | Ball     |
+| Red     | Bacher   |
++---------+----------+
+6 rows in set (0.01 sec)
+
+mysql> SELECT A.Fname,A.Lname,COUNT(A.Ssn) AS Total_Employee FROM employee AS A INNER JOIN employee AS B ON A.Ssn=B.Super_ssn GROUP BY (A.Ssn);
++----------+----------+----------------+
+| Fname    | Lname    | Total_Employee |
++----------+----------+----------------+
+| Jared    | James    |              4 |
+| Juan     | Linda    |              2 |
+| John     | Smith    |              1 |
+| Evan     | Wallis   |              3 |
+| Josh     | Zell     |              2 |
+| John     | Ed       |              1 |
+| Kim      | Grace    |              1 |
+| Frank    | Wong     |              3 |
+| Alex     | Freed    |              7 |
+| Bonnie   | Bays     |              1 |
+| Alec     | Best     |              1 |
+| Sam      | Snedden  |              1 |
+| John     | James    |              3 |
+| Nandita  | Ball     |              2 |
+| Bob      | Bender   |              4 |
+| Jill     | Jarvis   |              1 |
+| Kate     | King     |              3 |
+| Lyle     | Leslie   |              2 |
+| Billie   | King     |              1 |
+| Gerald   | Small    |              1 |
+| Naveen   | Drew     |              1 |
+| Carl     | Reedy    |              1 |
+| Sammy    | Hall     |              2 |
+| Red      | Bacher   |              2 |
+| James    | Jordan   |              3 |
+| Jennifer | Wallace  |              2 |
+| Ahmad    | Jabbar   |              1 |
+| Roy      | Lewallen |              3 |
++----------+----------+----------------+
+28 rows in set (0.00 sec)
+
+mysql> SELECT Pno,SUM(Hours) AS Total_Hours FROM works_on GROUP BY (Pno);
++-----+-------------+
+| Pno | Total_Hours |
++-----+-------------+
+| 10  |         119 |
+| 11  |          65 |
+| 13  |          18 |
+| 20  |          34 |
+| 22  |          34 |
+| 29  |          40 |
+| 30  |          59 |
+| 4   |          61 |
+| 5   |        88.5 |
+| 6   |        44.5 |
+| 61  |         358 |
+| 62  |         347 |
+| 63  |         250 |
+| 7   |          74 |
+| 70  |          72 |
+| 91  |         332 |
+| 92  |         158 |
+| 95  |         101 |
++-----+-------------+
+18 rows in set (0.00 sec)
+
+mysql> SELECT A.* FROM employee AS A INNER JOIN dependent AS B ON A.Ssn=B.Essn GROUP BY (B.Essn) HAVING COUNT(B.Essn)>2;
++--------+-------+-------+-----------+------------+-------------------------+------+--------+-----------+------+
+| Fname  | Minit | Lname | Ssn       | Bdate      | Address                 | Sex  | Salary | Super_ssn | Dno  |
++--------+-------+-------+-----------+------------+-------------------------+------+--------+-----------+------+
+| Bonnie | S     | Bays  | 444444401 | 1956-06-19 | 111 Hollow,Milwaukee,WI | F    | 70000  | 444444400 | 7    |
++--------+-------+-------+-----------+------------+-------------------------+------+--------+-----------+------+
+1 row in set (0.00 sec)
+
+mysql> SELECT A.* FROM employee AS A INNER JOIN dependent AS B ON A.Ssn=B.Essn WHERE B.Relationship='Children' GROUP BY (B.Essn) HAVING COUNT(B.Essn)>1;
++--------+-------+-------+-----------+------------+-------------------------+------+--------+-----------+------+
+| Fname  | Minit | Lname | Ssn       | Bdate      | Address                 | Sex  | Salary | Super_ssn | Dno  |
++--------+-------+-------+-----------+------------+-------------------------+------+--------+-----------+------+
+| Bonnie | S     | Bays  | 444444401 | 1956-06-19 | 111 Hollow,Milwaukee,WI | F    | 70000  | 444444400 | 7    |
++--------+-------+-------+-----------+------------+-------------------------+------+--------+-----------+------+
+1 row in set (0.00 sec)
+
+mysql> SELECT A.Fname,A.Lname FROM employee AS A INNER JOIN dept_locations AS B ON A.Dno=B.DnumbeR WHERE B.Dlocation='Atlanta';
++-----------+----------+
+| Fname     | Lname    |
++-----------+----------+
+| Alex      | Yu       |
+| Jared     | James    |
+| Jon       | Jones    |
+| Justin    | Mark     |
+| Brad      | Knight   |
+| Debra     | Hall     |
+| John      | Ed       |
+| Christina | Hisel    |
+| Jake      | Sheen    |
+| Kim       | Grace    |
+| Jeff      | Chase    |
+| Jose      | Barbara  |
+| Cindy     | Burklow  |
+| Nandita   | Ball     |
+| Penny     | Wolowitz |
+| Zach      | Geller   |
++-----------+----------+
+16 rows in set (0.00 sec)
+
+mysql> SELECT C.Dname,B.Dnumber,A.Pname,A.Pnumber FROM project AS A INNER JOIN dept_locations AS B ON A.Dnum=B.Dnumber INNER JOIN department AS C ON B.Dnumber=C.Dnumber WHERE B.Dlocation='Houston';
++--------------+---------+----------------+---------+
+| Dname        | Dnumber | Pname          | Pnumber |
++--------------+---------+----------------+---------+
+| Headquarters | 1       | Reorganization | 20      |
+| Research     | 5       | EntityAnnot    | 4       |
++--------------+---------+----------------+---------+
+2 rows in set (0.00 sec)
+
+

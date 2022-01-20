@@ -1,0 +1,91 @@
+Explaination :- This file contains output of when tables were created and assigned primary keys for each table.
+
+mysql> CREATE TABLE employee(Fname VARCHAR(20), Minit VARCHAR(20), Lname VARCHAR(20), Ssn VARCHAR(20), Bdate DATE, Address VARCHAR(80), Sex VARCHAR(20), Salary VARCHAR(20), Super_ssn VARCHAR(20), Dno VARCHAR(20), PRIMARY KEY(Ssn));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> CREATE TABLE department(Dname VARCHAR(20), Dnumber VARCHAR(20), Mgr_ssn VARCHAR(20), Mgr_start_date DATE, PRIMARY KEY(Dnumber));
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> CREATE TABLE dept_locations(Dnumber VARCHAR(20), Dlocation VARCHAR(20), PRIMARY KEY(Dnumber,Dlocation));
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> CREATE TABLE project(Pname VARCHAR(20), Pnumber VARCHAR(20), Ploacation VARCHAR(20), Dnum VARCHAR(20), PRIMARY KEY(Pnumber));
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> CREATE TABLE works_on(Essn VARCHAR(20), Pno VARCHAR(20), Hours VARCHAR(20), PRIMARY KEY(Essn,Pno));
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> CREATE TABLE dependent(Essn VARCHAR(20), Dependent_name VARCHAR(20), Sex VARCHAR(20), Bdate DATE, Relationship VARCHAR(20), PRIMARY KEY(Essn,Dependent_name));
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> desc department;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Dname          | varchar(20) | YES  |     | NULL    |       |
+| Dnumber        | varchar(20) | NO   | PRI | NULL    |       |
+| Mgr_ssn        | varchar(20) | YES  |     | NULL    |       |
+| Mgr_start_date | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> desc employee;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Fname     | varchar(20) | YES  |     | NULL    |       |
+| Minit     | varchar(20) | YES  |     | NULL    |       |
+| Lname     | varchar(20) | YES  |     | NULL    |       |
+| Ssn       | varchar(20) | NO   | PRI | NULL    |       |
+| Bdate     | date        | YES  |     | NULL    |       |
+| Address   | varchar(80) | YES  |     | NULL    |       |
+| Sex       | varchar(20) | YES  |     | NULL    |       |
+| Salary    | varchar(20) | YES  |     | NULL    |       |
+| Super_ssn | varchar(20) | YES  |     | NULL    |       |
+| Dno       | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> desc dept_locations;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Dnumber   | varchar(20) | NO   | PRI | NULL    |       |
+| Dlocation | varchar(20) | NO   | PRI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc project;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Pname      | varchar(20) | YES  |     | NULL    |       |
+| Pnumber    | varchar(20) | NO   | PRI | NULL    |       |
+| Plocation | varchar(20) | YES  |     | NULL    |       |
+| Dnum       | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc works_on;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Essn  | varchar(20) | NO   | PRI | NULL    |       |
+| Pno   | varchar(20) | NO   | PRI | NULL    |       |
+| Hours | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc dependent;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Essn           | varchar(20) | NO   | PRI | NULL    |       |
+| Dependent_name | varchar(20) | NO   | PRI | NULL    |       |
+| Sex            | varchar(20) | YES  |     | NULL    |       |
+| Bdate          | date        | YES  |     | NULL    |       |
+| Relationship   | varchar(20) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+

@@ -1,0 +1,34 @@
+Explaination :- This file contains output when foreign key is assigned to each table according project requirements.
+
+mysql> ALTER TABLE employee ADD CONSTRAINT pk_empemp FOREIGN KEY (Super_ssn) REFERENCES employee(Ssn);
+Query OK, 70 rows affected (0.19 sec)
+Records: 70  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee ADD CONSTRAINT pk_depemp FOREIGN KEY (Dno) REFERENCES department(Dnumber);
+Query OK, 70 rows affected (0.52 sec)
+Records: 70  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE department ADD CONSTRAINT pk_empdepa FOREIGN KEY (Mgr_ssn) REFERENCES employee(Ssn);
+Query OK, 9 rows affected (0.71 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE dept_locations ADD CONSTRAINT pk_depdept FOREIGN KEY (Dnumber) REFERENCES department(Dnumber);
+Query OK, 15 rows affected (0.38 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE project ADD CONSTRAINT pk_depproj FOREIGN KEY (Dnum) REFERENCES department(Dnumber);
+Query OK, 18 rows affected (0.43 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE works_on ADD CONSTRAINT pk_empwork FOREIGN KEY (Essn) REFERENCES employee(Ssn);
+Query OK, 96 rows affected (0.42 sec)
+Records: 96  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE works_on ADD CONSTRAINT pk_projwork FOREIGN KEY (Pno) REFERENCES project(Pnumber);
+Query OK, 96 rows affected (0.89 sec)
+Records: 96  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE dependent ADD CONSTRAINT pk_empdepen FOREIGN KEY (Essn) REFERENCES employee(Ssn);
+Query OK, 22 rows affected (0.43 sec)
+Records: 22  Duplicates: 0  Warnings: 0
+
